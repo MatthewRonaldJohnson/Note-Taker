@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const { isArray } = require('util');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -24,6 +23,7 @@ app.get('/api/notes', async (req, res) => {
 
 app.post('/api/notes', async (req, res) => {
     const newNote = req.body;
+    newNote.id = notes.length;
     console.log(newNote)
     notes.push(newNote);
     await fs.promises.writeFile('./db/db.json', JSON.stringify(notes))
