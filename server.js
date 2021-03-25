@@ -31,7 +31,6 @@ app.post('/api/notes', async (req, res) => {
 
 app.put('/api/notes', async (req, res) => {
     const updatedNote = req.body;
-    console.log(updatedNote)
     notes[updatedNote.id] = updatedNote;
     const file = await fs.promises.writeFile('./db/db.json', JSON.stringify(notes))
     res.status(200).json(file)

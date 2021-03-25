@@ -67,6 +67,7 @@ const renderActiveNote = () => {
   hide(saveNoteBtn);
 
   if (Number.isInteger(activeNote.id)) {
+    //took these lines out as we've added ability to update notes
     //noteTitle.setAttribute('readonly', true);
     //noteText.setAttribute('readonly', true);
     noteTitle.value = activeNote.title;
@@ -83,11 +84,11 @@ const handleNoteSave = () => {
     text: noteText.value,
   };
   saveNote(newNote).then((res) => {
-    console.log(res)
-    console.log("never see this log")
-    activeNote = newNote;
     getAndRenderNotes();
-    renderActiveNote();
+    //took this line out so that when you save a note it stays in the active state, as we can now update notes
+    //renderActiveNote();
+    //added this which was taken care of by renderActiveNote previously
+    hide(saveNoteBtn)
   });
 };
 
@@ -104,7 +105,6 @@ const handleNoteDelete = (e) => {
   }
 
   deleteNote(noteId).then(() => {
-    console.log('we get here')
     getAndRenderNotes();
     renderActiveNote();
   });
