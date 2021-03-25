@@ -33,14 +33,27 @@ const getNotes = () =>
     },
   });
 
-const saveNote = (note) => 
-  fetch('/api/notes', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(note),
-  })
+const saveNote = function (note) {
+  if (Number.isInteger(activeNote.id)) {
+    note.id = activeNote.id
+    return fetch('/api/notes', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(note),
+    })
+  } else {
+    return fetch('/api/notes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(note),
+    })
+  }
+
+}
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
@@ -69,9 +82,11 @@ const handleNoteSave = () => {
     title: noteTitle.value,
     text: noteText.value,
   };
-  saveNote(newNote).then(async () => {
+  saveNote(newNote).then((res) => {
+    console.log(res)
     console.log("never see this log")
-    await getAndRenderNotes();
+    activeNote = newNote;
+    getAndRenderNotes();
     renderActiveNote();
   });
 };
@@ -89,6 +104,7 @@ const handleNoteDelete = (e) => {
   }
 
   deleteNote(noteId).then(() => {
+    console.log('we get here')
     getAndRenderNotes();
     renderActiveNote();
   });

@@ -25,8 +25,16 @@ app.post('/api/notes', async (req, res) => {
     const newNote = req.body;
     newNote.id = notes.length;
     notes.push(newNote);
-    await fs.promises.writeFile('./db/db.json', JSON.stringify(notes))
-    res.end
+    const file = await fs.promises.writeFile('./db/db.json', JSON.stringify(notes))
+    res.status(200).json(file)
+})
+
+app.put('/api/notes', async (req, res) => {
+    const updatedNote = req.body;
+    console.log(updatedNote)
+    notes[updatedNote.id] = updatedNote;
+    const file = await fs.promises.writeFile('./db/db.json', JSON.stringify(notes))
+    res.status(200).json(file)
 })
 
 app.delete('/api/notes/:id', async (req, res) => {
