@@ -33,14 +33,14 @@ const getNotes = () =>
     },
   });
 
-const saveNote = (note) =>
+const saveNote = (note) => 
   fetch('/api/notes', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(note),
-  });
+  })
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
@@ -53,9 +53,9 @@ const deleteNote = (id) =>
 const renderActiveNote = () => {
   hide(saveNoteBtn);
 
-  if (activeNote.id) {
-    noteTitle.setAttribute('readonly', true);
-    noteText.setAttribute('readonly', true);
+  if (Number.isInteger(activeNote.id)) {
+    //noteTitle.setAttribute('readonly', true);
+    //noteText.setAttribute('readonly', true);
     noteTitle.value = activeNote.title;
     noteText.value = activeNote.text;
   } else {
@@ -69,8 +69,9 @@ const handleNoteSave = () => {
     title: noteTitle.value,
     text: noteText.value,
   };
-  saveNote(newNote).then(() => {
-    getAndRenderNotes();
+  saveNote(newNote).then(async () => {
+    console.log("never see this log")
+    await getAndRenderNotes();
     renderActiveNote();
   });
 };
