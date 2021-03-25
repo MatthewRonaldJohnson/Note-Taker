@@ -24,11 +24,21 @@ app.get('/api/notes', async (req, res) => {
 app.post('/api/notes', async (req, res) => {
     const newNote = req.body;
     newNote.id = notes.length;
-    console.log('here')
-    console.log(newNote)
     notes.push(newNote);
     await fs.promises.writeFile('./db/db.json', JSON.stringify(notes))
     res.end
+})
+
+app.delete('/api/notes/:id', async (req, res) => {
+    let index = req.params.id
+
+    notes.splice(index, 1) //removes note at specified index
+    //loop through notes array starting at where we removed the note, and reassign all the id's to new index
+    for (index; index < notes.length; index++) {
+        notes[index].id = parseInt(index);
+    }
+    await fs.promises.writeFile('./db/db.json', JSON.stringify(notes))
+    res.end()
 })
 
 app.listen(PORT, () => console.log("Listening on port: " + PORT));
