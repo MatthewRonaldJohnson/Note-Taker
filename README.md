@@ -1,7 +1,5 @@
 # Note Taker App
 
-Homework 11: Create the server code to handle the backend of a note taking app. 
-
 ## [Deployed Link](https://mrj-note-taker.herokuapp.com/)
 
 This app has been deployed using the Heroku platform. The deployed application can be found [here](https://mrj-note-taker.herokuapp.com/).
